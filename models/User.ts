@@ -1,11 +1,22 @@
-import { DataTypes, Model } from 'sequelize';
-import sequelize from '../db';
+import { Entity, PrimaryGeneratedColumn, Column, CreateDateColumn, UpdateDateColumn } from "typeorm";
 
-class User extends Model {}
-User.init({
-  username: { type: DataTypes.STRING, allowNull: false },
-  email: { type: DataTypes.STRING, unique: true, allowNull: false },
-  password: { type: DataTypes.STRING, allowNull: false },
-}, { sequelize, modelName: 'user' });
+@Entity("users")
+export class User {
+    @PrimaryGeneratedColumn()
+    id: number;
 
-export default User;
+    @Column({ type: "varchar", length: 255 })
+    username: string;
+
+    @Column({ type: "varchar", length: 255, unique: true })
+    email: string;
+
+    @Column({ type: "varchar", length: 255 })
+    password: string;
+
+    @CreateDateColumn({ type: "timestamp" })
+    createdAt: Date;
+
+    @UpdateDateColumn({ type: "timestamp" })
+    updatedAt: Date;
+}

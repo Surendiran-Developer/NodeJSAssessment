@@ -1,11 +1,18 @@
-router.get('/tasks', async (req: Request, res: Response) => {
-    const { status } = req.query;
-    let tasks;
-  
-    if (status === 'completed') tasks = await Task.findAll({ where: { completed: true } });
-    else if (status === 'pending') tasks = await Task.findAll({ where: { completed: false } });
-    else tasks = await Task.findAll();
-  
-    res.json(tasks);
-  });
-  
+import express from "express";
+import { createTask, getAllTasks, getTaskById, updateTask, deleteTask } from "../controllers/taskController";
+import { verifyToken } from "../middlewares/authMiddleware";
+import { validateTask } from "../middlewares/validationMiddleware";
+
+const router = express.Router();
+
+router.post("/create", verifyToken, validateTask, createTask);
+
+router.get("/", verifyToken, getAllTasks);
+
+router.get("/:id", verifyToken, getTaskById);
+
+router.put("/:id", verifyToken, validateTask, updateTask);
+
+router.delete("/:id", verifyToken, deleteTask);
+
+export default router;

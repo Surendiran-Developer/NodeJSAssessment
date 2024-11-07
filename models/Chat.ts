@@ -1,11 +1,16 @@
-import { DataTypes, Model } from 'sequelize';
-import sequelize from '../db';
+import { Entity, PrimaryGeneratedColumn, Column, CreateDateColumn } from "typeorm";
 
-class User extends Model {}
-User.init({
-  username: { type: DataTypes.STRING, allowNull: false },
-  email: { type: DataTypes.STRING, unique: true, allowNull: false },
-  password: { type: DataTypes.STRING, allowNull: false },
-}, { sequelize, modelName: 'user' });
+@Entity("chats")
+export class Chat {
+    @PrimaryGeneratedColumn()
+    id: number;
 
-export default User;
+    @Column({ type: "varchar", length: 255 })
+    username: string;
+
+    @Column({ type: "text" })
+    message: string;
+
+    @CreateDateColumn({ type: "timestamp" })
+    timestamp: Date;
+}
